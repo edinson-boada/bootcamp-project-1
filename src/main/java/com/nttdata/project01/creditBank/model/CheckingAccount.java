@@ -5,7 +5,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class SavingAccount {
+public class CheckingAccount {
+    private float commission;
     private int movements;
     private float balance;
 }
