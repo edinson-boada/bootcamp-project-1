@@ -1,4 +1,4 @@
-package com.nttdata.project01.creditBank.model.Dto;
+package com.nttdata.project01.creditBank.model.dto;
 
 import lombok.Getter;
 import lombok.Setter;

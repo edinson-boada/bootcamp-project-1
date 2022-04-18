@@ -3,7 +3,7 @@ package com.nttdata.project01.creditBank.strategy;
 
 import com.nttdata.project01.creditBank.exception.EmpresarialAccountException;
 import com.nttdata.project01.creditBank.exception.PersonalAccountException;
-import com.nttdata.project01.creditBank.model.Dto.CustomerDto;
+import com.nttdata.project01.creditBank.model.dto.CustomerDto;
 
 import java.util.Optional;
 

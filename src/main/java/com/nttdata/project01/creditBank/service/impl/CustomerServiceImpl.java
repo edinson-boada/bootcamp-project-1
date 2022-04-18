@@ -3,7 +3,7 @@ package com.nttdata.project01.creditBank.service.impl;
 import com.nttdata.project01.creditBank.exception.TypeAccountNotFoundException;
 import com.nttdata.project01.creditBank.mapper.CustomerMapper;
 import com.nttdata.project01.creditBank.model.Customer;
-import com.nttdata.project01.creditBank.model.Dto.CustomerDto;
+import com.nttdata.project01.creditBank.model.dto.CustomerDto;
 import com.nttdata.project01.creditBank.repository.CustomerRepository;
 import com.nttdata.project01.creditBank.service.CustomerService;
 import com.nttdata.project01.creditBank.strategy.TypeAccount;

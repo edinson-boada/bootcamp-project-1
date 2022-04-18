@@ -1,7 +1,7 @@
 package com.nttdata.project01.creditBank.mapper;
 
 import com.nttdata.project01.creditBank.model.Customer;
-import com.nttdata.project01.creditBank.model.Dto.CustomerDto;
+import com.nttdata.project01.creditBank.model.dto.CustomerDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.NullValuePropertyMappingStrategy;
