@@ -34,8 +34,8 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Customer addCustomer(Customer customer) {
-        validateTypeAccount(customerMapper.toDto(customer));
-        validateTypeAccountRestrictions(customerMapper.toDto(customer));
+//        validateTypeAccount(customerMapper.toDto(customer));
+//        validateTypeAccountRestrictions(customerMapper.toDto(customer));
         return customerRepository.save(customer);
     }
 
