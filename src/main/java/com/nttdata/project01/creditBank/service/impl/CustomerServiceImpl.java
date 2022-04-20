@@ -6,8 +6,6 @@ import com.nttdata.project01.creditBank.repository.CustomerRepository;
 import com.nttdata.project01.creditBank.service.CustomerService;
 import com.nttdata.project01.creditBank.strategy.CustomerType;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -43,11 +41,6 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public void deleteCustomer(String id) {
         customerRepository.deleteById(id);
-    }
-
-    @Override
-    public Mono<Customer> findById(String id) {
-        return Mono.just(customerRepository.findById(id).orElse(null));
     }
 
     private void validateTypeAccount(Customer customer) {

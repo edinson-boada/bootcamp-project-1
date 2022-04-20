@@ -10,6 +10,4 @@ public interface CustomerService {
     Mono<Customer> addCustomer(Customer customer);
     Mono<Customer> updateCustomer(Customer customer, String id);
     void deleteCustomer(String id);
-
-    Mono<Customer> findById(String id);
 }
