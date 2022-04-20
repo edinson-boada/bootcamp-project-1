@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/api/v1/deposit-accounts")
@@ -17,17 +17,17 @@ public class DepositAccountController {
     private DepositAccountService depositAccountService;
 
     @PostMapping
-    public ResponseEntity<DepositAccount> addDepositAccount(@RequestBody DepositAccount depositAccount) {
+    public ResponseEntity<Mono<DepositAccount>> addDepositAccount(@RequestBody DepositAccount depositAccount) {
         return ResponseEntity.status(HttpStatus.CREATED).body(depositAccountService.addDepositAccount(depositAccount));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getDepositAccount(@PathVariable String id) {
+    public ResponseEntity<Mono<DepositAccount>> getDepositAccount(@PathVariable String id) {
         return ResponseEntity.ok(depositAccountService.getDepositAccount(id));
     }
 
     @GetMapping
-    public ResponseEntity<List<DepositAccount>> getAllDepositAccounts() {
+    public ResponseEntity<Flux<DepositAccount>> getAllDepositAccounts() {
         return ResponseEntity.ok().body(depositAccountService.getAllDepositAccount());
     }
 

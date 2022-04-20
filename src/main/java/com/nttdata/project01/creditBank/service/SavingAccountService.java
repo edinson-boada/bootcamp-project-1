@@ -1,14 +1,13 @@
 package com.nttdata.project01.creditBank.service;
 
 import com.nttdata.project01.creditBank.model.SavingAccount;
-
-import java.util.List;
-import java.util.Optional;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 public interface SavingAccountService {
-    Optional<SavingAccount> getSavingAccount(String id);
-    List<SavingAccount> getAllSavingAccount();
-    SavingAccount addSavingAccount(SavingAccount savingAccount);
-    SavingAccount updateSavingAccount(SavingAccount savingAccount, String id);
+    Mono<SavingAccount> getSavingAccount(String id);
+    Flux<SavingAccount> getAllSavingAccount();
+    Mono<SavingAccount> addSavingAccount(SavingAccount savingAccount);
+    Mono<SavingAccount> updateSavingAccount(SavingAccount savingAccount, String id);
     void deleteSavingAccount(String id);
 }

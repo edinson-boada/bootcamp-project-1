@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/api/v1/customers")
@@ -17,17 +17,17 @@ public class CustomerController {
     private CustomerService customerService;
 
     @PostMapping
-    public ResponseEntity<Customer> addCustomer(@RequestBody Customer customer) {
+    public ResponseEntity<Mono<Customer>> addCustomer(@RequestBody Customer customer) {
         return ResponseEntity.status(HttpStatus.CREATED).body(customerService.addCustomer(customer));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getCustomer(@PathVariable String id) {
+    public ResponseEntity<Mono<Customer>> getCustomer(@PathVariable String id) {
         return ResponseEntity.ok(customerService.getCustomer(id));
     }
 
     @GetMapping
-    public ResponseEntity<List<Customer>> getAllEmployees() {
+    public ResponseEntity<Flux<Customer>> getAllEmployees() {
         return ResponseEntity.ok().body(customerService.getAllCustomers());
     }
 

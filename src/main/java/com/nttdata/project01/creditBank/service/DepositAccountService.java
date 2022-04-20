@@ -1,14 +1,13 @@
 package com.nttdata.project01.creditBank.service;
 
 import com.nttdata.project01.creditBank.model.DepositAccount;
-
-import java.util.List;
-import java.util.Optional;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 public interface DepositAccountService {
-    Optional<DepositAccount> getDepositAccount(String id);
-    List<DepositAccount> getAllDepositAccount();
-    DepositAccount addDepositAccount(DepositAccount depositAccount);
-    DepositAccount updateDepositAccount(DepositAccount depositAccount, String id);
+    Mono<DepositAccount> getDepositAccount(String id);
+    Flux<DepositAccount> getAllDepositAccount();
+    Mono<DepositAccount> addDepositAccount(DepositAccount depositAccount);
+    Mono<DepositAccount> updateDepositAccount(DepositAccount depositAccount, String id);
     void deleteDepositAccount(String id);
 }

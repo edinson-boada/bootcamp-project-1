@@ -1,14 +1,13 @@
 package com.nttdata.project01.creditBank.service;
 
 import com.nttdata.project01.creditBank.model.CheckingAccount;
-
-import java.util.List;
-import java.util.Optional;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 public interface CheckingAccountService {
-    Optional<CheckingAccount> getCheckingAccount(String id);
-    List<CheckingAccount> getAllCheckingAccount();
-    CheckingAccount addCheckingAccount(CheckingAccount checkingAccount);
-    CheckingAccount updateCheckingAccount(CheckingAccount checkingAccount, String id);
+    Mono<CheckingAccount> getCheckingAccount(String id);
+    Flux<CheckingAccount> getAllCheckingAccount();
+    Mono<CheckingAccount> addCheckingAccount(CheckingAccount checkingAccount);
+    Mono<CheckingAccount> updateCheckingAccount(CheckingAccount checkingAccount, String id);
     void deleteCheckingAccount(String id);
 }
