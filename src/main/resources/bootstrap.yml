@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: credit-bank
+  cloud:
+    config:
+      uri: http://localhost:8081
+      username: edinson-boada
+      password: Tzumenicoz$.1
+
+
