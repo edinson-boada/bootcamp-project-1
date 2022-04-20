@@ -13,6 +13,11 @@ public class Customer {
     @Id
     private String id;
     private String type;
+    private String names;
+    private String surnames;
+    @Field(name = "doc_number")
+    private String docNumber;
+    private int age;
     @Field(name = "credits_quantity")
     private int creditsQuantity;
     @Field(name = "credit_card_balance")
