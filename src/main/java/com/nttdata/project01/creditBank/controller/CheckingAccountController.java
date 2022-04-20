@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/api/v1/checking-accounts")
@@ -17,17 +17,17 @@ public class CheckingAccountController {
     private CheckingAccountService checkingAccountService;
 
     @PostMapping
-    public ResponseEntity<CheckingAccount> addCheckingAccount(@RequestBody CheckingAccount checkingAccount) {
+    public ResponseEntity<Mono<CheckingAccount>> addCheckingAccount(@RequestBody CheckingAccount checkingAccount) {
         return ResponseEntity.status(HttpStatus.CREATED).body(checkingAccountService.addCheckingAccount(checkingAccount));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getCheckingAccount(@PathVariable String id) {
+    public ResponseEntity<Mono<CheckingAccount>> getCheckingAccount(@PathVariable String id) {
         return ResponseEntity.ok(checkingAccountService.getCheckingAccount(id));
     }
 
     @GetMapping
-    public ResponseEntity<List<CheckingAccount>> getAllCheckingAccounts() {
+    public ResponseEntity<Flux<CheckingAccount>> getAllCheckingAccounts() {
         return ResponseEntity.ok().body(checkingAccountService.getAllCheckingAccount());
     }
 

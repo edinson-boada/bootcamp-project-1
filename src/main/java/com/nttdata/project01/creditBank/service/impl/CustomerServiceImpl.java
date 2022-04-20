@@ -1,17 +1,14 @@
 package com.nttdata.project01.creditBank.service.impl;
 
 import com.nttdata.project01.creditBank.exception.TypeAccountNotFoundException;
-import com.nttdata.project01.creditBank.mapper.CustomerMapper;
 import com.nttdata.project01.creditBank.model.Customer;
-import com.nttdata.project01.creditBank.model.dto.CustomerDto;
 import com.nttdata.project01.creditBank.repository.CustomerRepository;
 import com.nttdata.project01.creditBank.service.CustomerService;
 import com.nttdata.project01.creditBank.strategy.CustomerType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
@@ -19,27 +16,24 @@ public class CustomerServiceImpl implements CustomerService {
     @Autowired
     private CustomerRepository customerRepository;
 
-    @Autowired
-    private CustomerMapper customerMapper;
-
     @Override
-    public Optional<Customer> getCustomer(String id) {
-        return customerRepository.findById(id);
+    public Mono<Customer> getCustomer(String id) {
+        return Mono.just(customerRepository.findById(id).get());
     }
 
     @Override
-    public List<Customer> getAllCustomers() {
-        return customerRepository.findAll();
+    public Flux<Customer> getAllCustomers() {
+        return Flux.fromIterable(customerRepository.findAll());
     }
 
     @Override
-    public Customer addCustomer(Customer customer) {
-        validateTypeAccount(customerMapper.toDto(customer));
-        return customerRepository.save(customer);
+    public Mono<Customer> addCustomer(Customer customer) {
+        validateTypeAccount(customer);
+        return Mono.just(customerRepository.save(customer));
     }
 
     @Override
-    public Customer updateCustomer(Customer customer, String id) {
+    public Mono<Customer> updateCustomer(Customer customer, String id) {
         return null;
     }
 
@@ -48,9 +42,9 @@ public class CustomerServiceImpl implements CustomerService {
         customerRepository.deleteById(id);
     }
 
-    private void validateTypeAccount(CustomerDto customerDto) {
+    private void validateTypeAccount(Customer customer) {
         try {
-            CustomerType.valueOf(customerDto.getType());
+            CustomerType.valueOf(customer.getType());
         } catch (IllegalArgumentException e) {
             throw new TypeAccountNotFoundException("Account type must be PERSONAL or BUSINESS.");
         }
