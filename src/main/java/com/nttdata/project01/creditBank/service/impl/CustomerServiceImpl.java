@@ -6,7 +6,7 @@ import com.nttdata.project01.creditBank.model.Customer;
 import com.nttdata.project01.creditBank.model.dto.CustomerDto;
 import com.nttdata.project01.creditBank.repository.CustomerRepository;
 import com.nttdata.project01.creditBank.service.CustomerService;
-import com.nttdata.project01.creditBank.strategy.TypeAccount;
+import com.nttdata.project01.creditBank.strategy.CustomerType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,8 +34,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Customer addCustomer(Customer customer) {
-//        validateTypeAccount(customerMapper.toDto(customer));
-//        validateTypeAccountRestrictions(customerMapper.toDto(customer));
+        validateTypeAccount(customerMapper.toDto(customer));
         return customerRepository.save(customer);
     }
 
@@ -49,15 +48,11 @@ public class CustomerServiceImpl implements CustomerService {
         customerRepository.deleteById(id);
     }
 
-    private void validateTypeAccountRestrictions(CustomerDto customerDto) {
-        TypeAccount.valueOf(customerDto.getType()).validateAccount(customerDto);
-    }
-
     private void validateTypeAccount(CustomerDto customerDto) {
         try {
-            TypeAccount.valueOf(customerDto.getType());
+            CustomerType.valueOf(customerDto.getType());
         } catch (IllegalArgumentException e) {
-            throw new TypeAccountNotFoundException("El tipo de cuenta debe ser Personal o Empresarial.");
+            throw new TypeAccountNotFoundException("Account type must be PERSONAL or BUSINESS.");
         }
     }
 }

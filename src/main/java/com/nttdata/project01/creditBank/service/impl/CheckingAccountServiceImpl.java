@@ -39,4 +39,7 @@ public class CheckingAccountServiceImpl implements CheckingAccountService {
     public void deleteCheckingAccount(String id) {
         checkingAccountRepository.deleteById(id);
     }
+
+    private void validatePersonalCustomerAccountRestriction(CheckingAccount checkingAccount) {
+    }
 }

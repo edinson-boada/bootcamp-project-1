@@ -1,5 +1,6 @@
 package com.nttdata.project01.creditBank.service.impl;
 
+import com.nttdata.project01.creditBank.exception.PersonalAccountException;
 import com.nttdata.project01.creditBank.model.SavingAccount;
 import com.nttdata.project01.creditBank.repository.SavingAccountRepository;
 import com.nttdata.project01.creditBank.service.SavingAccountService;
@@ -27,6 +28,8 @@ public class SavingAccountServiceImpl implements SavingAccountService {
 
     @Override
     public SavingAccount addSavingAccount(SavingAccount savingAccount) {
+     //   validateBusinessCustomerAccountRestriction(savingAccount);
+     //   validatePersonalCustomerAccountRestriction(savingAccount);
         return savingAccountRepository.save(savingAccount);
     }
 
@@ -38,5 +41,21 @@ public class SavingAccountServiceImpl implements SavingAccountService {
     @Override
     public void deleteSavingAccount(String id) {
         savingAccountRepository.deleteById(id);
+    }
+
+    private void validatePersonalCustomerAccountRestriction(SavingAccount savingAccount) {
+        Optional.of(savingAccount)
+                .filter(sa ->
+                        !savingAccountRepository.existsByCustomerId(sa.getCustomer().getId()) &&
+                                savingAccountRepository.findById(sa.getCustomer().getId()).get().getCustomer().getType().equals("PERSONAL"))
+                .orElseThrow(() -> new PersonalAccountException("A personal customer can only have a maximum of one savings account, " +
+                        "one checking account or deposit accounts"));
+    }
+
+    private void validateBusinessCustomerAccountRestriction(SavingAccount savingAccount) {
+        Optional.of(savingAccount)
+                .filter(sa -> savingAccountRepository.findById(sa.getCustomer().getId()).get().getCustomer().getType().equals("BUSINESS"))
+                .orElseThrow(() -> new PersonalAccountException("A business customer cannot have a savings or deposit account " +
+                        "but can have multiple checking accounts"));
     }
 }
