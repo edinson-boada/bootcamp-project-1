@@ -1,7 +1,6 @@
 package com.nttdata.project01.creditBank.service.impl;
 
 import com.nttdata.project01.creditBank.exception.TypeAccountNotFoundException;
-import com.nttdata.project01.creditBank.mapper.CustomerMapper;
 import com.nttdata.project01.creditBank.model.Customer;
 import com.nttdata.project01.creditBank.repository.CustomerRepository;
 import com.nttdata.project01.creditBank.service.CustomerService;
@@ -16,9 +15,6 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Autowired
     private CustomerRepository customerRepository;
-
-    @Autowired
-    private CustomerMapper customerMapper;
 
     @Override
     public Mono<Customer> getCustomer(String id) {
