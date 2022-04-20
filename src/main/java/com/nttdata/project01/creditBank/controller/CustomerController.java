@@ -36,4 +36,9 @@ public class CustomerController {
         customerService.deleteCustomer(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Mono<Customer>> update(@PathVariable String id, @RequestBody Customer customer) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(customerService.updateCustomer(customer, id));
+    }
 }
