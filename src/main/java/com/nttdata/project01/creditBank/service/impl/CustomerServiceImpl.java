@@ -28,7 +28,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Mono<Customer> addCustomer(Customer customer) {
-        validateTypeAccount(customer);
+        validateCustomerType(customer);
         return Mono.just(customerRepository.save(customer));
     }
 
@@ -43,7 +43,7 @@ public class CustomerServiceImpl implements CustomerService {
         customerRepository.deleteById(id);
     }
 
-    private void validateTypeAccount(Customer customer) {
+    private void validateCustomerType(Customer customer) {
         try {
             CustomerType.valueOf(customer.getType());
         } catch (IllegalArgumentException e) {
