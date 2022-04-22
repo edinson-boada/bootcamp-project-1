@@ -1,6 +1,6 @@
 package com.nttdata.project01.creditBank.controller;
 
-import com.nttdata.project01.creditBank.exception.EmpresarialAccountException;
+import com.nttdata.project01.creditBank.exception.BusinessAccountException;
 import com.nttdata.project01.creditBank.exception.ErrorMessage;
 import com.nttdata.project01.creditBank.exception.PersonalAccountException;
 import com.nttdata.project01.creditBank.exception.TypeAccountNotFoundException;
@@ -30,9 +30,9 @@ public class ControllerExceptionHandler {
         return message;
     }
 
-    @ExceptionHandler(EmpresarialAccountException.class)
+    @ExceptionHandler(BusinessAccountException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    public ErrorMessage handleEmpresarialAccount(EmpresarialAccountException ex) {
+    public ErrorMessage handleEmpresarialAccount(BusinessAccountException ex) {
         ErrorMessage message = new ErrorMessage(
                 HttpStatus.BAD_REQUEST.value(),
                 ex.getMessage());
