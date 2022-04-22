@@ -22,5 +22,4 @@ public class Customer {
     private int creditsQuantity;
     @Field(name = "credit_card_balance")
     private float creditCardBalance;
-
 }

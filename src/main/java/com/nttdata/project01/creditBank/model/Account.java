@@ -7,15 +7,19 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.util.List;
+
 @Getter
 @Setter
-@Document(collection = "saving_accounts")
-public class SavingAccount {
+@Document(collection = "accounts")
+public class Account {
     @Id
     private String id;
+    private String type;
+    private float commission;
     private int movements;
     private float balance;
-    @Field(name = "customer_id")
+    @Field(name = "customer_ids")
     @DocumentReference
-    private Customer customer;
+    private List<Customer> customers;
 }
