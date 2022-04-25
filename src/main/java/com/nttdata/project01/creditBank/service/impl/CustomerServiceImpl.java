@@ -1,6 +1,6 @@
 package com.nttdata.project01.creditBank.service.impl;
 
-import com.nttdata.project01.creditBank.exception.TypeAccountNotFoundException;
+import com.nttdata.project01.creditBank.exception.CustomerTypeNotFoundException;
 import com.nttdata.project01.creditBank.model.Customer;
 import com.nttdata.project01.creditBank.repository.CustomerRepository;
 import com.nttdata.project01.creditBank.service.CustomerService;
@@ -43,11 +43,11 @@ public class CustomerServiceImpl implements CustomerService {
         customerRepository.deleteById(id);
     }
 
-    private void validateCustomerType(Customer customer) {
+    public void validateCustomerType(Customer customer) {
         try {
             CustomerType.valueOf(customer.getType());
         } catch (IllegalArgumentException e) {
-            throw new TypeAccountNotFoundException("Account type must be PERSONAL or BUSINESS.");
+            throw new CustomerTypeNotFoundException("Customer type must be PERSONAL or BUSINESS.");
         }
     }
 }
