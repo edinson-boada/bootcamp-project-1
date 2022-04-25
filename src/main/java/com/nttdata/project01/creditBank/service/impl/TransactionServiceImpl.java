@@ -1,8 +1,10 @@
 package com.nttdata.project01.creditBank.service.impl;
 
+import com.nttdata.project01.creditBank.exception.TransactionTypeNotFoundException;
 import com.nttdata.project01.creditBank.model.Transaction;
 import com.nttdata.project01.creditBank.repository.TransactionRepository;
 import com.nttdata.project01.creditBank.service.TransactionService;
+import com.nttdata.project01.creditBank.strategy.CustomerType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,8 +28,9 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public Mono<Transaction> addTransaction(Transaction Transaction) {
-        return Mono.just(TransactionRepository.save(Transaction));
+    public Mono<Transaction> addTransaction(Transaction transaction) {
+        validateTransactionType(transaction);
+        return Mono.just(TransactionRepository.save(transaction));
     }
 
     @Override
@@ -38,5 +41,13 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public void deleteTransaction(String id) {
         TransactionRepository.deleteById(id);
+    }
+
+    public void validateTransactionType(Transaction transaction) {
+        try {
+            CustomerType.valueOf(transaction.getType());
+        } catch (IllegalArgumentException e) {
+            throw new TransactionTypeNotFoundException("Transaction type must be DEPOSIT, WITHDRAWAL or PAYMENT.");
+        }
     }
 }
