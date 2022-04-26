@@ -38,7 +38,16 @@ public class ControllerExceptionHandler {
 
     @ExceptionHandler(AccountRestrictionsException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    public ErrorMessage handlePersonalAccount(AccountRestrictionsException ex) {
+    public ErrorMessage handleAccountRestrictions(AccountRestrictionsException ex) {
+        ErrorMessage message = new ErrorMessage(
+                HttpStatus.BAD_REQUEST.value(),
+                ex.getMessage());
+        return message;
+    }
+
+    @ExceptionHandler(NoMovementsRemainingException.class)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    public ErrorMessage handleNoMovementsRemaining(NoMovementsRemainingException ex) {
         ErrorMessage message = new ErrorMessage(
                 HttpStatus.BAD_REQUEST.value(),
                 ex.getMessage());
