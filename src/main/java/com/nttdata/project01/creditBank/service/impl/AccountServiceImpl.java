@@ -2,6 +2,7 @@ package com.nttdata.project01.creditBank.service.impl;
 
 import com.nttdata.project01.creditBank.exception.AccountRestrictionsException;
 import com.nttdata.project01.creditBank.exception.AccountTypeNotFoundException;
+import com.nttdata.project01.creditBank.exception.NoMovementsRemainingException;
 import com.nttdata.project01.creditBank.model.Account;
 import com.nttdata.project01.creditBank.model.Customer;
 import com.nttdata.project01.creditBank.repository.AccountRepository;
@@ -66,7 +67,12 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void updateAccountBalance(String accountId, float amount, String transactionType) {
+
         Account account = accountRepository.findById(accountId).get();
+
+        if (AccountType.valueOf(account.getType()).validateRemainingMovements(account.getMovements()))
+            account.setMovements(account.getMovements() - 1);
+
         account.setBalance(TransactionType.valueOf(transactionType).calculateBalance(amount, account.getBalance()));
         accountRepository.save(account);
     }
