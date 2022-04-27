@@ -1,6 +1,5 @@
 package com.nttdata.project01.creditBank.service.impl;
 
-import com.nttdata.project01.creditBank.model.Account;
 import com.nttdata.project01.creditBank.model.CreditCard;
 import com.nttdata.project01.creditBank.model.Customer;
 import com.nttdata.project01.creditBank.repository.CreditCardRepository;
@@ -11,8 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-import java.util.List;
 
 @Service
 @Transactional
