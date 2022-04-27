@@ -73,13 +73,22 @@ public class AccountServiceImpl implements AccountService {
         if (AccountType.valueOf(account.getType()).validateRemainingMovements(account.getMovements()))
             account.setMovements(account.getMovements() - 1);
 
-        account.setBalance(TransactionType.valueOf(transactionType).calculateBalance(amount, account.getBalance()));
+        if (validateBalance(account, amount))
+            account.setBalance(TransactionType.valueOf(transactionType).calculateBalance(amount, account.getBalance()));
+
         accountRepository.save(account);
     }
 
     @Override
     public void deleteAccount(String id) {
         accountRepository.deleteById(id);
+    }
+
+    public boolean validateBalance(Account account, float amount) {
+        Optional.of(account)
+                .filter(a -> a.getBalance() - amount >= 0)
+                .orElseThrow(() -> new AccountRestrictionsException("You do not have enough balance."));
+        return true;
     }
 
     public void validateTypeAccount(Account account) {
