@@ -2,7 +2,6 @@ package com.nttdata.project01.creditBank.service.impl;
 
 import com.nttdata.project01.creditBank.exception.AccountRestrictionsException;
 import com.nttdata.project01.creditBank.exception.AccountTypeNotFoundException;
-import com.nttdata.project01.creditBank.exception.NoMovementsRemainingException;
 import com.nttdata.project01.creditBank.model.Account;
 import com.nttdata.project01.creditBank.model.Customer;
 import com.nttdata.project01.creditBank.repository.AccountRepository;
