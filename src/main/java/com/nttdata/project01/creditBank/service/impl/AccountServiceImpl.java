@@ -73,7 +73,7 @@ public class AccountServiceImpl implements AccountService {
         if (AccountType.valueOf(account.getType()).validateRemainingMovements(account.getMovements()))
             account.setMovements(account.getMovements() - 1);
 
-        if (validateBalance(account, amount))
+        if (TransactionType.valueOf(transactionType).validateBalance(amount, account));
             account.setBalance(TransactionType.valueOf(transactionType).calculateBalance(amount, account.getBalance()));
 
         accountRepository.save(account);
