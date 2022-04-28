@@ -1,12 +1,15 @@
 package com.nttdata.project01.creditBank.service.impl;
 
+import com.nttdata.project01.creditBank.exception.TransactionTypeNotFoundException;
 import com.nttdata.project01.creditBank.model.Account;
 import com.nttdata.project01.creditBank.model.CreditCard;
+import com.nttdata.project01.creditBank.model.CreditCardTransaction;
 import com.nttdata.project01.creditBank.model.Customer;
 import com.nttdata.project01.creditBank.repository.CreditCardRepository;
 import com.nttdata.project01.creditBank.repository.CustomerRepository;
 import com.nttdata.project01.creditBank.service.CreditCardService;
 import com.nttdata.project01.creditBank.strategy.AccountType;
+import com.nttdata.project01.creditBank.strategy.CreditCardTransactionType;
 import com.nttdata.project01.creditBank.strategy.TransactionType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,12 +51,28 @@ public class CreditCardServiceImpl implements CreditCardService {
     }
 
     @Override
-    public void updateAccountBalance(String creditCardId, float amount, String transactionType) {
+    public void updateAccountBalance(String creditCardId, float amount, String creditCardtransactionType) {
 
+        validateCreditCardTransactionType(creditCardtransactionType);
+
+        CreditCard creditCard = creditCardRepository.findById(creditCardId).get();
+
+        if (CreditCardTransactionType.valueOf(creditCardtransactionType).validateBalance(amount, creditCard))
+            creditCard.setBalance(CreditCardTransactionType.valueOf(creditCardtransactionType).calculateBalance(amount, creditCard.getBalance()));
+
+        creditCardRepository.save(creditCard);
     }
 
     @Override
     public void deleteCreditCard(String id) {
         creditCardRepository.deleteById(id);
+    }
+
+    public void validateCreditCardTransactionType(String creditCardtransactionType) {
+        try {
+            CreditCardTransactionType.valueOf(creditCardtransactionType);
+        } catch (IllegalArgumentException e) {
+            throw new TransactionTypeNotFoundException("Credit card transaction type must be EXPENSE or PAYMENT.");
+        }
     }
 }

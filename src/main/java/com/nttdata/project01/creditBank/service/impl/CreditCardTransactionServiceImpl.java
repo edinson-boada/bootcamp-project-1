@@ -1,8 +1,10 @@
 package com.nttdata.project01.creditBank.service.impl;
 
+import com.nttdata.project01.creditBank.exception.TransactionTypeNotFoundException;
 import com.nttdata.project01.creditBank.model.CreditCardTransaction;
 import com.nttdata.project01.creditBank.repository.CreditCardTransactionRepository;
 import com.nttdata.project01.creditBank.service.CreditCardTransactionService;
+import com.nttdata.project01.creditBank.strategy.CreditCardTransactionType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +30,7 @@ public class CreditCardTransactionServiceImpl implements CreditCardTransactionSe
 
     @Override
     public Mono<CreditCardTransaction> addCreditCardTransaction(CreditCardTransaction creditCardTransaction) {
+        validateCreditCardTransactionType(creditCardTransaction);
         return Mono.just(creditCardTransactionRepository.save(creditCardTransaction));
     }
 
@@ -39,5 +42,13 @@ public class CreditCardTransactionServiceImpl implements CreditCardTransactionSe
     @Override
     public void deleteCreditCardTransaction(String id) {
         creditCardTransactionRepository.deleteById(id);
+    }
+
+    public void validateCreditCardTransactionType(CreditCardTransaction creditCardTransaction) {
+        try {
+            CreditCardTransactionType.valueOf(creditCardTransaction.getType());
+        } catch (IllegalArgumentException e) {
+            throw new TransactionTypeNotFoundException("Credit card transaction type must be EXPENSE or PAYMENT.");
+        }
     }
 }
