@@ -53,4 +53,13 @@ public class ControllerExceptionHandler {
                 ex.getMessage());
         return message;
     }
+
+    @ExceptionHandler(InsufficientBalanceException.class)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    public ErrorMessage handleInsufficientBalance(InsufficientBalanceException ex) {
+        ErrorMessage message = new ErrorMessage(
+                HttpStatus.BAD_REQUEST.value(),
+                ex.getMessage());
+        return message;
+    }
 }
