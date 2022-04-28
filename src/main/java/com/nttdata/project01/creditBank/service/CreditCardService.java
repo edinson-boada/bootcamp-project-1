@@ -9,5 +9,6 @@ public interface CreditCardService {
     Flux<CreditCard> getAllCreditCards();
     Mono<CreditCard> addCreditCard(CreditCard creditCard);
     Mono<CreditCard> updateCreditCard(CreditCard creditCard, String id);
+    void updateAccountBalance(String creditCardId, float amount, String transactionType);
     void deleteCreditCard(String id);
 }

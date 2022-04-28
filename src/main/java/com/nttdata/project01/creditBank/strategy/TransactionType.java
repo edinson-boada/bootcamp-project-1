@@ -13,10 +13,16 @@ public enum TransactionType {
             return balance - amount;
         }
     },
-    PAYMENT {
+    EXPENSE {
         @Override
         public float calculateBalance(float amount, float balance) {
             return balance - amount;
+        }
+    },
+    PAYMENT {
+        @Override
+        public float calculateBalance(float amount, float balance) {
+            return balance + amount;
         }
     };
 

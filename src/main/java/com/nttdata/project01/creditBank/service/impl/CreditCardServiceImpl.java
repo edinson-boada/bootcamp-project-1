@@ -1,10 +1,13 @@
 package com.nttdata.project01.creditBank.service.impl;
 
+import com.nttdata.project01.creditBank.model.Account;
 import com.nttdata.project01.creditBank.model.CreditCard;
 import com.nttdata.project01.creditBank.model.Customer;
 import com.nttdata.project01.creditBank.repository.CreditCardRepository;
 import com.nttdata.project01.creditBank.repository.CustomerRepository;
 import com.nttdata.project01.creditBank.service.CreditCardService;
+import com.nttdata.project01.creditBank.strategy.AccountType;
+import com.nttdata.project01.creditBank.strategy.TransactionType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,6 +45,11 @@ public class CreditCardServiceImpl implements CreditCardService {
     @Override
     public Mono<CreditCard> updateCreditCard(CreditCard creditCard, String id) {
         return null;
+    }
+
+    @Override
+    public void updateAccountBalance(String creditCardId, float amount, String transactionType) {
+
     }
 
     @Override

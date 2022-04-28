@@ -11,6 +11,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 public class CreditCardTransaction {
     @Id
     private String id;
+    private String type;
     private float amount;
     @Field(name = "credit_card")
     @DocumentReference

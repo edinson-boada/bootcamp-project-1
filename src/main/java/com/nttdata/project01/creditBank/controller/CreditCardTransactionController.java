@@ -1,6 +1,7 @@
 package com.nttdata.project01.creditBank.controller;
 
 import com.nttdata.project01.creditBank.model.CreditCardTransaction;
+import com.nttdata.project01.creditBank.service.CreditCardService;
 import com.nttdata.project01.creditBank.service.CreditCardTransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,8 +17,14 @@ public class CreditCardTransactionController {
     @Autowired
     private CreditCardTransactionService creditCardTransactionService;
 
+    @Autowired
+    private CreditCardService creditCardService;
+
     @PostMapping
     public ResponseEntity<Mono<CreditCardTransaction>> addCreditCardTransaction(@RequestBody CreditCardTransaction creditCardTransaction) {
+        creditCardService.updateAccountBalance(creditCardTransaction.getCreditCard().getId(),
+                creditCardTransaction.getAmount(),
+                creditCardTransaction.getType());
         return ResponseEntity.status(HttpStatus.CREATED).body(creditCardTransactionService.addCreditCardTransaction(creditCardTransaction));
     }
 
