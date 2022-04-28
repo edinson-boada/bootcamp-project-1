@@ -2,7 +2,7 @@ package com.nttdata.project01.creditBank.service.impl;
 
 import com.nttdata.project01.creditBank.exception.AccountRestrictionsException;
 import com.nttdata.project01.creditBank.exception.AccountTypeNotFoundException;
-import com.nttdata.project01.creditBank.exception.NoMovementsRemainingException;
+import com.nttdata.project01.creditBank.exception.TransactionTypeNotFoundException;
 import com.nttdata.project01.creditBank.model.Account;
 import com.nttdata.project01.creditBank.model.Customer;
 import com.nttdata.project01.creditBank.repository.AccountRepository;
@@ -68,12 +68,15 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void updateAccountBalance(String accountId, float amount, String transactionType) {
 
+        validateTransactionType(transactionType);
         Account account = accountRepository.findById(accountId).get();
 
         if (AccountType.valueOf(account.getType()).validateRemainingMovements(account.getMovements()))
             account.setMovements(account.getMovements() - 1);
 
-        account.setBalance(TransactionType.valueOf(transactionType).calculateBalance(amount, account.getBalance()));
+        if (TransactionType.valueOf(transactionType).validateBalance(amount, account))
+            account.setBalance(TransactionType.valueOf(transactionType).calculateBalance(amount, account.getBalance()));
+
         accountRepository.save(account);
     }
 
@@ -82,11 +85,26 @@ public class AccountServiceImpl implements AccountService {
         accountRepository.deleteById(id);
     }
 
+    public boolean validateBalance(Account account, float amount) {
+        Optional.of(account)
+                .filter(a -> a.getBalance() - amount >= 0)
+                .orElseThrow(() -> new AccountRestrictionsException("You do not have enough balance."));
+        return true;
+    }
+
     public void validateTypeAccount(Account account) {
         try {
             AccountType.valueOf(account.getType());
         } catch (IllegalArgumentException e) {
             throw new AccountTypeNotFoundException("Account type must be SAVING, CURRENT or DEPOSIT.");
+        }
+    }
+
+    public void validateTransactionType(String transaction) {
+        try {
+            TransactionType.valueOf(transaction);
+        } catch (IllegalArgumentException e) {
+            throw new TransactionTypeNotFoundException("Transaction type must be DEPOSIT or WITHDRAWAL");
         }
     }
 
