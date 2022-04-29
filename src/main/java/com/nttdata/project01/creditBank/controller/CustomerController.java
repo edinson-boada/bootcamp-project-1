@@ -27,7 +27,7 @@ public class CustomerController {
     }
 
     @GetMapping
-    public ResponseEntity<Flux<Customer>> getAllEmployees() {
+    public ResponseEntity<Flux<Customer>> getAllCustomers() {
         return ResponseEntity.ok().body(customerService.getAllCustomers());
     }
 

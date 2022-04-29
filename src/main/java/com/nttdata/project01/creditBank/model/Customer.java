@@ -29,4 +29,8 @@ public class Customer {
     @JsonIgnore
     @DocumentReference
     private List<Account> accounts;
+    @JsonIgnore
+    @Field(name = "credit_card")
+    @DocumentReference
+    private CreditCard creditCard;
 }

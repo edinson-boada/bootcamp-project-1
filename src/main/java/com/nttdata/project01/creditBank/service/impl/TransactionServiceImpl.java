@@ -4,7 +4,6 @@ import com.nttdata.project01.creditBank.exception.TransactionTypeNotFoundExcepti
 import com.nttdata.project01.creditBank.model.Transaction;
 import com.nttdata.project01.creditBank.repository.TransactionRepository;
 import com.nttdata.project01.creditBank.service.TransactionService;
-import com.nttdata.project01.creditBank.strategy.CustomerType;
 import com.nttdata.project01.creditBank.strategy.TransactionType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
