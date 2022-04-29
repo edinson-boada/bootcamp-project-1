@@ -40,4 +40,9 @@ public class TransactionController {
         TransactionService.deleteTransaction(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/customer/{id}")
+    public ResponseEntity<Flux<Transaction>> getTransactionsByCustomerId(@PathVariable String id) {
+        return ResponseEntity.ok(TransactionService.getTransactionsByCustomerId(id));
+    }
 }

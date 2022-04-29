@@ -38,6 +38,11 @@ public class CreditCardTransactionController {
         return ResponseEntity.ok().body(creditCardTransactionService.getAllCreditCardTransactions());
     }
 
+    @GetMapping("/customer/{id}")
+    public ResponseEntity<Flux<CreditCardTransaction>> getCreditCardTransactionByCustomerId(@PathVariable String id) {
+        return ResponseEntity.ok(creditCardTransactionService.getAllCreditCardTransactionsByCustomer(id));
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteCreditCardTransaction(@PathVariable String id) {
         creditCardTransactionService.deleteCreditCardTransaction(id);
