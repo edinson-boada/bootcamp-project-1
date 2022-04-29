@@ -24,7 +24,7 @@ public enum AccountType {
         @Override
         public boolean validateRemainingMovements(int movements) {
             Optional.of(movements)
-                    .filter(m -> m - 1 < 0)
+                    .filter(m -> m - 1 >= 0)
                     .orElseThrow(() -> new NoMovementsRemainingException("You have no more movements left in this account."));
             return true;
         }

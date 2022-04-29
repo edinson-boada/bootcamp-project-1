@@ -10,4 +10,5 @@ public interface TransactionService {
     Mono<Transaction> addTransaction(Transaction transaction);
     Mono<Transaction> updateTransaction(Transaction transaction, String id);
     void deleteTransaction(String id);
+    Flux<Transaction> getTransactionsByCustomerId(String customerId);
 }
