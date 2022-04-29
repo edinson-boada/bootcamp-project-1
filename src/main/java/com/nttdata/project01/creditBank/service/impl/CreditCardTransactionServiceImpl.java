@@ -40,6 +40,11 @@ public class CreditCardTransactionServiceImpl implements CreditCardTransactionSe
     }
 
     @Override
+    public Flux<CreditCardTransaction> getAllCreditCardTransactionsByCustomer(String customerId) {
+        return Flux.fromIterable(creditCardTransactionRepository.findByCreditCardCustomerId(customerId));
+    }
+
+    @Override
     public void deleteCreditCardTransaction(String id) {
         creditCardTransactionRepository.deleteById(id);
     }

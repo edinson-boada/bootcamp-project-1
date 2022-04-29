@@ -14,6 +14,8 @@ public class Transaction {
     @Id
     private String id;
     private String type;
+    @Field(name = "customer_id")
+    private String customerId;
     private float amount;
     @Field(name = "account")
     @DocumentReference
