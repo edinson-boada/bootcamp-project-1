@@ -9,5 +9,6 @@ public interface CreditCardTransactionService {
     Flux<CreditCardTransaction> getAllCreditCardTransactions();
     Mono<CreditCardTransaction> addCreditCardTransaction(CreditCardTransaction creditCardTransaction);
     Mono<CreditCardTransaction> updateCreditCardTransaction(CreditCardTransaction creditCardTransaction, String id);
+    Flux<CreditCardTransaction> getAllCreditCardTransactionsByCustomer(String customerId);
     void deleteCreditCardTransaction(String id);
 }
