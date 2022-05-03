@@ -8,7 +8,7 @@
 		<version>2.6.6</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.nttdata.project01</groupId>
+	<groupId>com.nttdata.project</groupId>
 	<artifactId>creditBank</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>creditBank</name>
