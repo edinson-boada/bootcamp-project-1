@@ -3,6 +3,6 @@ spring:
     name: credit-bank
   cloud:
     config:
-      uri: http://localhost:8888
+      uri: http://config-server:8888
       username: edinson-boada
       password: Tzumenicoz$.1
