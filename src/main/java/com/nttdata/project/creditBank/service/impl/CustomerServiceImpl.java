@@ -18,24 +18,24 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Mono<Customer> getCustomer(String id) {
-        return Mono.just(customerRepository.findById(id).get());
+        return customerRepository.findById(id);
     }
 
     @Override
     public Flux<Customer> getAllCustomers() {
-        return Flux.fromIterable(customerRepository.findAll());
+        return customerRepository.findAll();
     }
 
     @Override
     public Mono<Customer> addCustomer(Customer customer) {
         validateCustomerType(customer);
-        return Mono.just(customerRepository.save(customer));
+        return customerRepository.save(customer);
     }
 
     @Override
     public Mono<Customer> updateCustomer(Customer customer, String id) {
         customer.setId(id);
-        return Mono.just(customerRepository.save(customer));
+        return customerRepository.save(customer);
     }
 
     @Override

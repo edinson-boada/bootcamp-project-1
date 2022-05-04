@@ -4,6 +4,7 @@ import com.nttdata.project.creditBank.model.Customer;
 import com.nttdata.project.creditBank.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
@@ -16,17 +17,17 @@ public class CustomerController {
     @Autowired
     private CustomerService customerService;
 
-    @PostMapping
+    @PostMapping(produces = MediaType.APPLICATION_STREAM_JSON_VALUE)
     public ResponseEntity<Mono<Customer>> addCustomer(@RequestBody Customer customer) {
         return ResponseEntity.status(HttpStatus.CREATED).body(customerService.addCustomer(customer));
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_STREAM_JSON_VALUE)
     public ResponseEntity<Mono<Customer>> getCustomer(@PathVariable String id) {
         return ResponseEntity.ok(customerService.getCustomer(id));
     }
 
-    @GetMapping
+    @GetMapping(produces = MediaType.APPLICATION_STREAM_JSON_VALUE)
     public ResponseEntity<Flux<Customer>> getAllCustomers() {
         return ResponseEntity.ok().body(customerService.getAllCustomers());
     }

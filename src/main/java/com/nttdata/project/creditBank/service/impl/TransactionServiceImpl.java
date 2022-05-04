@@ -19,18 +19,18 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public Mono<Transaction> getTransaction(String id) {
-        return Mono.just(transactionRepository.findById(id).get());
+        return transactionRepository.findById(id);
     }
 
     @Override
     public Flux<Transaction> getAllTransactions() {
-        return Flux.fromIterable(transactionRepository.findAll());
+        return transactionRepository.findAll();
     }
 
     @Override
     public Mono<Transaction> addTransaction(Transaction transaction) {
         validateTransactionType(transaction);
-        return Mono.just(transactionRepository.save(transaction));
+        return transactionRepository.save(transaction);
     }
 
     @Override
@@ -45,7 +45,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public Flux<Transaction> getTransactionsByCustomerId(String customerId) {
-        return Flux.fromIterable(transactionRepository.findByCustomerId(customerId));
+        return transactionRepository.findByCustomerId(customerId);
     }
 
     public void validateTransactionType(Transaction transaction) {

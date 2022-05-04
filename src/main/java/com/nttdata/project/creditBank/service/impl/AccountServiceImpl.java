@@ -32,12 +32,12 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Mono<Account> getAccount(String id) {
-        return Mono.just(accountRepository.findById(id).get());
+        return accountRepository.findById(id);
     }
 
     @Override
     public Flux<Account> getAllAccounts() {
-        return Flux.fromIterable(accountRepository.findAll());
+        return accountRepository.findAll();
     }
 
     @Override
@@ -51,13 +51,13 @@ public class AccountServiceImpl implements AccountService {
             validateManyCustomersAccountRestriction(account);
 
         for (Customer c : account.getCustomers()) {
-            Customer customer = customerRepository.findById(c.getId()).get();
+            Customer customer = customerRepository.findById(c.getId()).block();
             List<Account> accounts = customer.getAccounts();
             accounts.add(account);
             customer.setAccounts(accounts);
             customerRepository.save(customer);
         }
-        return Mono.just(accountRepository.save(account));
+        return accountRepository.save(account);
     }
 
     @Override
@@ -69,7 +69,7 @@ public class AccountServiceImpl implements AccountService {
     public void updateAccountBalance(String accountId, float amount, String transactionType) {
 
         validateTransactionType(transactionType);
-        Account account = accountRepository.findById(accountId).get();
+        Account account = accountRepository.findById(accountId).block();
 
         if (AccountType.valueOf(account.getType()).validateRemainingMovements(account.getMovements()))
             account.setMovements(account.getMovements() - 1);
@@ -111,7 +111,7 @@ public class AccountServiceImpl implements AccountService {
     public void validateOneCustomerAccountRestriction(Account account) {
         Optional.of(account)
                 .filter(a -> {
-                    Customer customer = customerRepository.findById(a.getCustomers().get(0).getId()).get();
+                    Customer customer = customerRepository.findById(a.getCustomers().get(0).getId()).block();
                     String customerType = customer.getType();
                     return (customerType.equals(CustomerType.PERSONAL.toString()) && customer.getAccounts().size() == 0) ||
                             (customerType.equals(CustomerType.BUSINESS.toString()) &&
@@ -127,7 +127,7 @@ public class AccountServiceImpl implements AccountService {
         Optional.of(account)
                 .filter(a -> a.getCustomers()
                         .stream()
-                        .filter(c -> !customerRepository.findById(c.getId()).get().getType().equals(CustomerType.BUSINESS.toString()))
+                        .filter(c -> !customerRepository.findById(c.getId()).block().getType().equals(CustomerType.BUSINESS.toString()))
                         .findAny()
                         .isEmpty() && a.getType().equals(AccountType.CURRENT.toString()))
                 .orElseThrow(() -> new AccountRestrictionsException("A business customer cannot have a savings or deposit account " +

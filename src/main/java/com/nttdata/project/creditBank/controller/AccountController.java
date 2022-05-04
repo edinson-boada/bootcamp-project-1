@@ -4,10 +4,13 @@ import com.nttdata.project.creditBank.service.AccountService;
 import com.nttdata.project.creditBank.model.Account;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.time.Duration;
 
 @RestController
 @RequestMapping("/api/v1/accounts")
@@ -21,12 +24,12 @@ public class AccountController {
         return ResponseEntity.status(HttpStatus.CREATED).body(accountService.addAccount(account));
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_STREAM_JSON_VALUE)
     public ResponseEntity<Mono<Account>> getCheckingAccount(@PathVariable String id) {
         return ResponseEntity.ok(accountService.getAccount(id));
     }
 
-    @GetMapping
+    @GetMapping(produces = MediaType.APPLICATION_STREAM_JSON_VALUE)
     public ResponseEntity<Flux<Account>> getAllCheckingAccounts() {
         return ResponseEntity.ok().body(accountService.getAllAccounts());
     }
