@@ -1,5 +1,6 @@
 package com.nttdata.project.creditBank.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
@@ -22,5 +23,6 @@ public class DebitCard {
     private String CCI;
     @Field(name = "account_ids")
     @DocumentReference
+    @JsonIgnore
     private List<Account> accounts;
 }

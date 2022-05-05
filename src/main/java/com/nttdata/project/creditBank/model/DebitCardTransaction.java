@@ -9,8 +9,8 @@ import org.springframework.data.mongodb.core.mapping.Field;
 
 @Getter
 @Setter
-@Document(collection = "transactions")
-public class Transaction {
+@Document(collection = "debit_card_transactions")
+public class DebitCardTransaction {
     @Id
     private String id;
     private String type;
