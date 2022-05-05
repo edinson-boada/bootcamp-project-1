@@ -5,7 +5,7 @@ import com.nttdata.project.creditBank.model.Account;
 
 import java.util.Optional;
 
-public enum TransactionType {
+public enum DebitCardTransactionType {
     DEPOSIT {
         @Override
         public float calculateBalance(float amount, float balance) {

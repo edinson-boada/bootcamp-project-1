@@ -7,15 +7,20 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.util.List;
+
 @Getter
 @Setter
-@Document(collection = "card_card_transactions")
-public class CreditCardTransaction {
+@Document(collection = "debit_cards")
+public class DebitCard {
     @Id
     private String id;
-    private String type;
-    private float amount;
-    @Field(name = "credit_card")
+    @Field(name = "card_number")
+    private String cardNumber;
+    @Field(name = "expiration_date")
+    private String expirationDate;
+    private String CCI;
+    @Field(name = "account_ids")
     @DocumentReference
-    private CreditCard creditCard;
+    private List<Account> accounts;
 }

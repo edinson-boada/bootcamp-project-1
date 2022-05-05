@@ -4,7 +4,7 @@ import com.nttdata.project.creditBank.exception.TransactionTypeNotFoundException
 import com.nttdata.project.creditBank.model.Transaction;
 import com.nttdata.project.creditBank.service.TransactionService;
 import com.nttdata.project.creditBank.repository.TransactionRepository;
-import com.nttdata.project.creditBank.strategy.TransactionType;
+import com.nttdata.project.creditBank.strategy.DebitCardTransactionType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,7 +50,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     public void validateTransactionType(Transaction transaction) {
         try {
-            TransactionType.valueOf(transaction.getType());
+            DebitCardTransactionType.valueOf(transaction.getType());
         } catch (IllegalArgumentException e) {
             throw new TransactionTypeNotFoundException("Transaction type must be DEPOSIT, WITHDRAWAL or PAYMENT.");
         }

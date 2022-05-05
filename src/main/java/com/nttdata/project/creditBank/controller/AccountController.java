@@ -1,16 +1,13 @@
 package com.nttdata.project.creditBank.controller;
 
-import com.nttdata.project.creditBank.service.AccountService;
 import com.nttdata.project.creditBank.model.Account;
+import com.nttdata.project.creditBank.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-import java.time.Duration;
 
 @RestController
 @RequestMapping("/api/v1/accounts")
@@ -20,22 +17,22 @@ public class AccountController {
     private AccountService accountService;
 
     @PostMapping
-    public ResponseEntity<Mono<Account>> addCheckingAccount(@RequestBody Account account) {
+    public ResponseEntity<Mono<Account>> addAccount(@RequestBody Account account) {
         return ResponseEntity.status(HttpStatus.CREATED).body(accountService.addAccount(account));
     }
 
-    @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_STREAM_JSON_VALUE)
-    public ResponseEntity<Mono<Account>> getCheckingAccount(@PathVariable String id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<Mono<Account>> getAccount(@PathVariable String id) {
         return ResponseEntity.ok(accountService.getAccount(id));
     }
 
-    @GetMapping(produces = MediaType.APPLICATION_STREAM_JSON_VALUE)
-    public ResponseEntity<Flux<Account>> getAllCheckingAccounts() {
+    @GetMapping
+    public ResponseEntity<Flux<Account>> getAllAccounts() {
         return ResponseEntity.ok().body(accountService.getAllAccounts());
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteCheckingAccount(@PathVariable String id) {
+    public ResponseEntity<?> deleteAccount(@PathVariable String id) {
         accountService.deleteAccount(id);
         return ResponseEntity.noContent().build();
     }

@@ -1,7 +1,9 @@
 package com.nttdata.project.creditBank.service.impl;
 
 import com.nttdata.project.creditBank.exception.CustomerTypeNotFoundException;
+import com.nttdata.project.creditBank.mapper.CustomerMapper;
 import com.nttdata.project.creditBank.model.Customer;
+import com.nttdata.project.creditBank.model.api.CustomerProductsResponse;
 import com.nttdata.project.creditBank.repository.CustomerRepository;
 import com.nttdata.project.creditBank.service.CustomerService;
 import com.nttdata.project.creditBank.strategy.CustomerType;
@@ -16,6 +18,9 @@ public class CustomerServiceImpl implements CustomerService {
     @Autowired
     private CustomerRepository customerRepository;
 
+    @Autowired
+    private CustomerMapper customerMapper;
+
     @Override
     public Mono<Customer> getCustomer(String id) {
         return customerRepository.findById(id);
@@ -24,6 +29,13 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public Flux<Customer> getAllCustomers() {
         return customerRepository.findAll();
+    }
+
+    @Override
+    public Mono<CustomerProductsResponse> getCustomerProducts(String id) {
+    return customerRepository
+        .findById(id)
+        .map(customerMapper::toCustomerProductsResponse);
     }
 
     @Override
