@@ -22,10 +22,6 @@ public class Customer {
     @Field(name = "doc_number")
     private String docNumber;
     private int age;
-    @Field(name = "credits_quantity")
-    private int creditsQuantity;
-    @Field(name = "credit_card_balance")
-    private float creditCardBalance;
     @JsonIgnore
     @DocumentReference
     private List<Account> accounts;

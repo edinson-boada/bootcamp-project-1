@@ -1,5 +1,6 @@
 package com.nttdata.project.creditBank.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
@@ -7,17 +8,21 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.util.List;
+
 @Getter
 @Setter
-@Document(collection = "transactions")
-public class Transaction {
+@Document(collection = "debit_cards")
+public class DebitCard {
     @Id
     private String id;
-    private String type;
-    @Field(name = "customer_id")
-    private String customerId;
-    private float amount;
-    @Field(name = "account")
+    @Field(name = "card_number")
+    private String cardNumber;
+    @Field(name = "expiration_date")
+    private String expirationDate;
+    private String CCI;
+    @Field(name = "account_ids")
     @DocumentReference
-    private Account account;
+    @JsonIgnore
+    private List<Account> accounts;
 }

@@ -1,6 +1,7 @@
 package com.nttdata.project.creditBank.controller;
 
 import com.nttdata.project.creditBank.model.Customer;
+import com.nttdata.project.creditBank.model.api.CustomerProductsResponse;
 import com.nttdata.project.creditBank.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,6 +30,11 @@ public class CustomerController {
     @GetMapping
     public ResponseEntity<Flux<Customer>> getAllCustomers() {
         return ResponseEntity.ok().body(customerService.getAllCustomers());
+    }
+
+    @GetMapping("/products/{id}")
+    public ResponseEntity<Mono<CustomerProductsResponse>> getCustomerProducts(@PathVariable String id) {
+        return ResponseEntity.ok().body(customerService.getCustomerProducts(id));
     }
 
     @DeleteMapping("/{id}")

@@ -1,10 +1,9 @@
 package com.nttdata.project.creditBank.repository;
 
 import com.nttdata.project.creditBank.model.CreditCardTransaction;
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
+import reactor.core.publisher.Flux;
 
-import java.util.List;
-
-public interface CreditCardTransactionRepository extends MongoRepository<CreditCardTransaction, String> {
-    List<CreditCardTransaction> findByCreditCardCustomerId(String customerId);
+public interface CreditCardTransactionRepository extends ReactiveMongoRepository<CreditCardTransaction, String> {
+    Flux<CreditCardTransaction> findByCreditCardCustomerId(String customerId);
 }

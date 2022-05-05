@@ -25,20 +25,20 @@ public class CreditCardServiceImpl implements CreditCardService {
 
     @Override
     public Mono<CreditCard> getCreditCard(String id) {
-        return Mono.just(creditCardRepository.findById(id).get());
+        return creditCardRepository.findById(id);
     }
 
     @Override
     public Flux<CreditCard> getAllCreditCards() {
-        return Flux.fromIterable(creditCardRepository.findAll());
+        return creditCardRepository.findAll();
     }
 
     @Override
     public Mono<CreditCard> addCreditCard(CreditCard creditCard) {
-        Customer customer = customerRepository.findById(creditCard.getCustomer().getId()).get();
+        Customer customer = customerRepository.findById(creditCard.getCustomer().getId()).block();
         customer.setCreditCard(creditCard);
         customerRepository.save(customer);
-        return Mono.just(creditCardRepository.save(creditCard));
+        return creditCardRepository.save(creditCard);
     }
 
     @Override
@@ -51,7 +51,7 @@ public class CreditCardServiceImpl implements CreditCardService {
 
         validateCreditCardTransactionType(creditCardtransactionType);
 
-        CreditCard creditCard = creditCardRepository.findById(creditCardId).get();
+        CreditCard creditCard = creditCardRepository.findById(creditCardId).block();
 
         if (CreditCardTransactionType.valueOf(creditCardtransactionType).validateBalance(amount, creditCard))
             creditCard.setBalance(CreditCardTransactionType.valueOf(creditCardtransactionType).calculateBalance(amount, creditCard.getBalance()));
@@ -64,9 +64,9 @@ public class CreditCardServiceImpl implements CreditCardService {
         creditCardRepository.deleteById(id);
     }
 
-    public void validateCreditCardTransactionType(String creditCardtransactionType) {
+    public void validateCreditCardTransactionType(String creditCardTransactionType) {
         try {
-            CreditCardTransactionType.valueOf(creditCardtransactionType);
+            CreditCardTransactionType.valueOf(creditCardTransactionType);
         } catch (IllegalArgumentException e) {
             throw new TransactionTypeNotFoundException("Credit card transaction type must be EXPENSE or PAYMENT.");
         }

@@ -20,18 +20,18 @@ public class CreditCardTransactionServiceImpl implements CreditCardTransactionSe
 
     @Override
     public Mono<CreditCardTransaction> getCreditCardTransaction(String id) {
-        return Mono.just(creditCardTransactionRepository.findById(id).get());
+        return creditCardTransactionRepository.findById(id);
     }
 
     @Override
     public Flux<CreditCardTransaction> getAllCreditCardTransactions() {
-        return Flux.fromIterable(creditCardTransactionRepository.findAll());
+        return creditCardTransactionRepository.findAll();
     }
 
     @Override
     public Mono<CreditCardTransaction> addCreditCardTransaction(CreditCardTransaction creditCardTransaction) {
         validateCreditCardTransactionType(creditCardTransaction);
-        return Mono.just(creditCardTransactionRepository.save(creditCardTransaction));
+        return creditCardTransactionRepository.save(creditCardTransaction);
     }
 
     @Override
@@ -41,7 +41,7 @@ public class CreditCardTransactionServiceImpl implements CreditCardTransactionSe
 
     @Override
     public Flux<CreditCardTransaction> getAllCreditCardTransactionsByCustomer(String customerId) {
-        return Flux.fromIterable(creditCardTransactionRepository.findByCreditCardCustomerId(customerId));
+        return creditCardTransactionRepository.findByCreditCardCustomerId(customerId);
     }
 
     @Override
