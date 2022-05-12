@@ -1,7 +1,12 @@
 package com.nttdata.project.creditBank.controller;
 
+import com.google.gson.Gson;
+import com.nttdata.project.creditBank.model.BootCoin;
+import com.nttdata.project.creditBank.model.BootCoinTransaction;
 import com.nttdata.project.creditBank.model.Person;
 import com.nttdata.project.creditBank.service.PersonService;
+import com.nttdata.project.creditBank.service.kafkaImpl.BootCoinProducer;
+import com.nttdata.project.creditBank.util.KafkaUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,8 +21,12 @@ public class PersonController {
     @Autowired
     private PersonService PersonService;
 
+    @Autowired
+    private BootCoinProducer producer;
+
     @PostMapping
     public ResponseEntity<Mono<Person>> addPerson(@RequestBody Person person) {
+        producer.publish(new Gson().toJson(person), KafkaUtils.BOOT_COIN_KAFKA_TOPIC);
         return ResponseEntity.status(HttpStatus.CREATED).body(PersonService.addPerson(person));
     }
 

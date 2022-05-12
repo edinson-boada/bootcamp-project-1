@@ -18,4 +18,6 @@ public class Person {
     private String docNumber;
     private String email;
     private String cellphone;
+//    @Field
+//    private String accountNumber;
 }

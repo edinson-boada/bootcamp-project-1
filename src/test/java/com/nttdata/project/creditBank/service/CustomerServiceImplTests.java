@@ -26,7 +26,7 @@ public class CustomerServiceImplTests {
     private String id = "1";
     @Test
     public void getByIdTest(){
-        Mono<Customer> customerMono = Mono.just(new Customer("1","PERSONAL","Edinson", "Boada", "72898058", 12));
+        Mono<Customer> customerMono = Mono.just(new Customer("1","PERSONAL","Edinson", "Boada", "72898058", "Mz. D Lt. 14"));
         when(customerRepository.findById(id)).thenReturn(customerMono);
         Mono<Customer> customer = customerService.getCustomer(id);
         StepVerifier
@@ -41,13 +41,13 @@ public class CustomerServiceImplTests {
     @Test
     public void getAllTest(){
         Flux<Customer> customerFlux = Flux.just(
-                new Customer("1","PERSONAL","Edinson", "Boada", "72898058", 12),
-                new Customer("2","BUSINESS","Paolo", "Cajo", "72898059", 13));
+                new Customer("1","PERSONAL","Edinson", "Boada", "72898058", "Mz. D Lt. 14"),
+                new Customer("2","BUSINESS","Paolo", "Cajo", "72898059", "Mz. D Lt. 15"));
         when(customerRepository.findAll()).thenReturn(customerFlux);
         StepVerifier.create(customerService.getAllCustomers())
                 .expectSubscription()
-                .expectNext(new Customer("1","PERSONAL","Edinson", "Boada", "72898058", 12))
-                .expectNext(new Customer("2","BUSINESS","Paolo", "Cajo", "72898059", 13))
+                .expectNext(new Customer("1","PERSONAL","Edinson", "Boada", "72898058", "Mz. D Lt. 14"))
+                .expectNext(new Customer("2","BUSINESS","Paolo", "Cajo", "72898059", "Mz. D Lt. 15"))
                 .verifyComplete();
     }
 }
