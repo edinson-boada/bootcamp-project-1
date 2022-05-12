@@ -59,7 +59,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     public void validateCustomerType(Customer customer) {
         try {
-            CustomerType.valueOf(customer.getType());
+            CustomerType.valueOf(customer.getCustomerType());
         } catch (IllegalArgumentException e) {
             throw new CustomerTypeNotFoundException("Customer type must be PERSONAL or BUSINESS.");
         }

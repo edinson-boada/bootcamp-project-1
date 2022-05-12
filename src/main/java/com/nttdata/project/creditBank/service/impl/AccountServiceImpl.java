@@ -4,6 +4,7 @@ import com.nttdata.project.creditBank.exception.AccountRestrictionsException;
 import com.nttdata.project.creditBank.exception.AccountTypeNotFoundException;
 import com.nttdata.project.creditBank.exception.TransactionTypeNotFoundException;
 import com.nttdata.project.creditBank.model.Account;
+import com.nttdata.project.creditBank.model.BootCoin;
 import com.nttdata.project.creditBank.model.Customer;
 import com.nttdata.project.creditBank.repository.AccountRepository;
 import com.nttdata.project.creditBank.repository.CustomerRepository;
@@ -61,8 +62,8 @@ public class AccountServiceImpl implements AccountService {
     }
 
     private static Boolean validateType(Customer c, Long size, Account account) {
-        return (c.getType().equals(CustomerType.PERSONAL.toString()) && size == 0) ||
-                            (c.getType().equals(CustomerType.BUSINESS.toString()) &&
+        return (c.getCustomerType().equals(CustomerType.PERSONAL.toString()) && size == 0) ||
+                            (c.getCustomerType().equals(CustomerType.BUSINESS.toString()) &&
                                     account.getType().equals(AccountType.CURRENT.toString()));
     }
 

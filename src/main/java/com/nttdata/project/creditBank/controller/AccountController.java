@@ -3,6 +3,7 @@ package com.nttdata.project.creditBank.controller;
 import com.nttdata.project.creditBank.model.Account;
 import com.nttdata.project.creditBank.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +27,7 @@ public class AccountController {
         return ResponseEntity.ok(accountService.getAccount(id));
     }
 
+    @Cacheable(value = "accounts")
     @GetMapping
     public ResponseEntity<Flux<Account>> getAllAccounts() {
         return ResponseEntity.ok().body(accountService.getAllAccounts());

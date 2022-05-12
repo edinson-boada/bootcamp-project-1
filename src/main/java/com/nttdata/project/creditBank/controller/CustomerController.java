@@ -4,6 +4,7 @@ import com.nttdata.project.creditBank.model.Customer;
 import com.nttdata.project.creditBank.model.api.CustomerProductsResponse;
 import com.nttdata.project.creditBank.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +28,7 @@ public class CustomerController {
         return ResponseEntity.ok(customerService.getCustomer(id));
     }
 
+    @Cacheable(value = "customers", key = "#id")
     @GetMapping
     public ResponseEntity<Flux<Customer>> getAllCustomers() {
         return ResponseEntity.ok().body(customerService.getAllCustomers());

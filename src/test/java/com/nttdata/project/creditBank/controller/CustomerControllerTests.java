@@ -30,8 +30,8 @@ class CustomerControllerTests {
 
 	@Test
 	public void createCustomer(){
-		Customer customer = new Customer("1","PERSONAL","Edinson", "Boada", "72898058", 12);
-		Mono<Customer> customerMono = Mono.just(new Customer("1","PERSONAL","Edinson", "Boada", "72898058", 12));
+		Customer customer = new Customer("1","PERSONAL","Edinson", "Boada", "72898058", "Mz. D Lt. 14");
+		Mono<Customer> customerMono = Mono.just(new Customer("1","PERSONAL","Edinson", "Boada", "72898058", "Mz. D Lt. 15"));
 		when(customerService.addCustomer(customer)).thenReturn(customerMono);
 		webTestClient.post().uri("/api/v1/customers")
 				.contentType(MediaType.APPLICATION_JSON)
@@ -44,8 +44,8 @@ class CustomerControllerTests {
 	@Test
 	public void getAllCustomer(){
 		var customerFlux = Flux.just(
-				new Customer("1","PERSONAL","Edinson", "Boada", "72898058", 12),
-				new Customer("2","BUSINESS","Paolo", "Cajo", "72898059", 13));
+				new Customer("1","PERSONAL","Edinson", "Boada", "72898058", "Mz. D Lt. 14"),
+				new Customer("2","BUSINESS","Paolo", "Cajo", "72898059", "Mz. D Lt. 15"));
 		when(customerService.getAllCustomers()).thenReturn(customerFlux);
 		var responseBody = webTestClient.get().uri("/api/v1/customers")
 				.exchange()
@@ -54,14 +54,14 @@ class CustomerControllerTests {
 				.getResponseBody();
 		StepVerifier.create(responseBody)
 				.expectSubscription()
-				.expectNext(new Customer("1","PERSONAL","Edinson", "Boada", "72898058", 12))
-				.expectNext(new Customer("2","BUSINESS","Paolo", "Cajo", "72898059", 13))
+				.expectNext(new Customer("1","PERSONAL","Edinson", "Boada", "72898058", "Mz. D Lt. 14"))
+				.expectNext(new Customer("2","BUSINESS","Paolo", "Cajo", "72898059", "Mz. D Lt. 15"))
 				.verifyComplete();
 	}
 
 	@Test
 	public void getCustomerById(){
-		Mono<Customer> customerMono = Mono.just(new Customer("1","PERSONAL","Edinson", "Boada", "72898058", 12));
+		Mono<Customer> customerMono = Mono.just(new Customer("1","PERSONAL","Edinson", "Boada", "72898058", "Mz. D Lt. 14"));
 		when(customerService.getCustomer(anyString())).thenReturn(customerMono);
 		var customerResp = webTestClient.get().uri("/api/v1/customers/1")
 				.exchange()
