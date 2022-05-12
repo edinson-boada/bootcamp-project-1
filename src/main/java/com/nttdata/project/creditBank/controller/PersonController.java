@@ -1,14 +1,12 @@
 package com.nttdata.project.creditBank.controller;
 
-import com.google.gson.Gson;
-import com.nttdata.project.creditBank.model.BootCoin;
-import com.nttdata.project.creditBank.model.BootCoinTransaction;
 import com.nttdata.project.creditBank.model.Person;
 import com.nttdata.project.creditBank.model.api.BootCoinTransactionRequest;
 import com.nttdata.project.creditBank.service.PersonService;
 import com.nttdata.project.creditBank.service.kafkaImpl.BootCoinProducer;
 import com.nttdata.project.creditBank.util.KafkaUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,6 +33,7 @@ public class PersonController {
         return ResponseEntity.ok(PersonService.getPerson(id));
     }
 
+    @Cacheable(value = "persons")
     @GetMapping
     public ResponseEntity<Flux<Person>> getAllPersons() {
         return ResponseEntity.ok().body(PersonService.getAllPersons());
