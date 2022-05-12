@@ -10,15 +10,12 @@ import org.springframework.data.mongodb.core.mapping.Field;
 @Data
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Document(collection = "customers")
-public class Customer {
+@Document(collection = "people")
+public class Person {
     @Id
     private String id;
-    @Field(name = "customer_type")
-    private String customerType;
-    private String names;
-    private String surnames;
     @Field(name = "doc_number")
     private String docNumber;
-    private String address;
+    private String email;
+    private String cellphone;
 }
