@@ -2,8 +2,8 @@ package com.nttdata.project.creditBank.service.impl;
 
 import com.nttdata.project.creditBank.exception.TransactionTypeNotFoundException;
 import com.nttdata.project.creditBank.model.DebitCardTransaction;
-import com.nttdata.project.creditBank.service.DebitCardTransactionService;
 import com.nttdata.project.creditBank.repository.DebitCardTransactionRepository;
+import com.nttdata.project.creditBank.service.DebitCardTransactionService;
 import com.nttdata.project.creditBank.strategy.DebitCardTransactionType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
