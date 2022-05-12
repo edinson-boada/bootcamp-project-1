@@ -4,6 +4,7 @@ import com.nttdata.project.creditBank.exception.AccountRestrictionsException;
 import com.nttdata.project.creditBank.exception.AccountTypeNotFoundException;
 import com.nttdata.project.creditBank.exception.TransactionTypeNotFoundException;
 import com.nttdata.project.creditBank.model.Account;
+import com.nttdata.project.creditBank.model.Customer;
 import com.nttdata.project.creditBank.repository.AccountRepository;
 import com.nttdata.project.creditBank.repository.CustomerRepository;
 import com.nttdata.project.creditBank.service.AccountService;
@@ -16,8 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -41,23 +41,83 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Mono<Account> addAccount(Account account) {
-        validateTypeAccount(account);
 
-        if(account.getCustomers().size() == 1)
-            validateOneCustomerAccountRestriction(account);
-        else
-            validateManyCustomersAccountRestriction(account);
+    /*        accountRepository.findByCustomersIdIn(
+            account.getCustomers().stream().map(customer -> customer.getId()).collect(Collectors.toList()));
 
-        account.getCustomers().forEach(c -> {
-            customerRepository.findById(c.getId()).doOnNext(customer -> {
-                List<Account> accounts = customer.getAccounts();
-                accounts.add(account);
-                customer.setAccounts(accounts);
-                customerRepository.save(customer);
-            });
-        });
-        return accountRepository.save(account);
+    accountRepository.findByCustomersId()
+
+    customerRepository.findById(account.getCustomers().get(0).getId())
+            .filter(customer ->
+                    customer.getType().equals(CustomerType.PERSONAL.toString()) && )
+
+    return (Optional.ofNullable(account).isEmpty()
+            ? accountRepository.save(account);*/
+
+    return customerRepository
+        .findByIdIn(
+            account.getCustomers().stream()
+                .map(currentCustomer -> currentCustomer.getId())
+                .collect(Collectors.toList()))
+        .flatMap(
+            customer ->
+                accountRepository
+                    .findByCustomersId(customer.getId())
+                    .count()
+                    .filter(size -> validateType(customer, size, account))
+                    .switchIfEmpty(Mono.error(new AccountRestrictionsException("gaxxx"))))
+            .last()
+        .flatMap(size -> accountRepository.save(account));
+
+        /*
+        return customerRepository.findById(account.getCustomers().get(0).getId())
+                .flatMap(customer -> accountRepository.findByCustomersId(account.getCustomers().get(0).getId())
+                        .count()
+                        .filter(size -> validateType(customer, size, account))
+                        .switchIfEmpty(Mono.error(new AccountRestrictionsException("ga"))))
+                .flatMap(size -> accountRepository.save(account));
+         */
+
+        /*
+        return customerRepository.findById(account.getCustomers().get(0).getId())
+                .zipWith(accountRepository.findByCustomersId(account.getCustomers().get(0).getId())
+                        .count())
+                .filter(customerSizeTuple -> validateType(customerSizeTuple.getT1(), customerSizeTuple.getT2(), account))
+                .switchIfEmpty(Mono.error(new AccountRestrictionsException("ga")))
+                .flatMap(size -> accountRepository.save(account));
+         */
     }
+
+
+
+    private static Boolean validateType(Customer c, Long size, Account account) {
+        return (c.getType().equals(CustomerType.PERSONAL.toString()) && size == 0) ||
+                            (c.getType().equals(CustomerType.BUSINESS.toString()) &&
+                                    account.getType().equals(AccountType.CURRENT.toString()));
+    }
+
+        public void validateOneCustomerAccountRestrictionx(Account account) {
+  /*      Mono<Customer> fxCustomer = customerRepository.findById(account.getCustomers().get(0).getId());
+        Flux<Account> fxAccounts = accountRepository.findByCustomersId(account.getCustomers().get(0).getId());
+
+
+
+
+        fxCustomer.zipWith(Flux.just(fxCustomer), (customer, accounts) -> {
+                    customer.getType() && accounts.()
+        }*/
+
+//                .filter(c ->
+//                    (c.getType().equals(CustomerType.PERSONAL.toString()) && c.getAccounts().size() == 0) ||
+//                            (c.getType().equals(CustomerType.BUSINESS.toString()) &&
+//                                    account.getType().equals(AccountType.CURRENT.toString())))
+//                .switchIfEmpty(
+//                        Mono.error(new AccountRestrictionsException(
+//                        "A personal customer can only have a maximum of one savings account, " +
+//                                "one checking account or deposit accounts and A business customer cannot have a savings or deposit account " +
+//                                "but can have multiple checking accounts")));
+    }
+
 
     @Override
     public Mono<Account> updateAccount(Account account, String id) {
@@ -84,11 +144,8 @@ public class AccountServiceImpl implements AccountService {
         accountRepository.deleteById(id);
     }
 
-    public boolean validateBalance(Account account, float amount) {
-        Optional.of(account)
-                .filter(a -> a.getBalance() - amount >= 0)
-                .orElseThrow(() -> new AccountRestrictionsException("You do not have enough balance."));
-        return true;
+    public void validateBalance(Account account, float amount) {
+
     }
 
     public void validateTypeAccount(Account account) {
@@ -108,27 +165,10 @@ public class AccountServiceImpl implements AccountService {
     }
 
     public void validateOneCustomerAccountRestriction(Account account) {
-        customerRepository.findById(account.getCustomers().get(0).getId())
-                .filter(c ->
-                    (c.getType().equals(CustomerType.PERSONAL.toString()) && c.getAccounts().size() == 0) ||
-                            (c.getType().equals(CustomerType.BUSINESS.toString()) &&
-                                    account.getType().equals(AccountType.CURRENT.toString())))
-                .switchIfEmpty(
-                        Mono.error(new AccountRestrictionsException(
-                        "A personal customer can only have a maximum of one savings account, " +
-                                "one checking account or deposit accounts and A business customer cannot have a savings or deposit account " +
-                                "but can have multiple checking accounts")))
-                .subscribe();
+
     }
 
     public void validateManyCustomersAccountRestriction(Account account) {
-        Optional.of(account)
-                .filter(a -> a.getCustomers()
-                        .stream()
-                        .filter(c -> !customerRepository.findById(c.getId()).block().getType().equals(CustomerType.BUSINESS.toString()))
-                        .findAny()
-                        .isEmpty() && a.getType().equals(AccountType.CURRENT.toString()))
-                .orElseThrow(() -> new AccountRestrictionsException("A business customer cannot have a savings or deposit account " +
-                        "but can have multiple current accounts and only them can have one or more holders"));
+
     }
 }

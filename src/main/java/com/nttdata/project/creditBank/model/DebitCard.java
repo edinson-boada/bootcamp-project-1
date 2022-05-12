@@ -22,7 +22,5 @@ public class DebitCard {
     private String expirationDate;
     private String CCI;
     @Field(name = "account_ids")
-    @DocumentReference
-    @JsonIgnore
     private List<Account> accounts;
 }

@@ -2,11 +2,10 @@ package com.nttdata.project.creditBank.service.impl;
 
 import com.nttdata.project.creditBank.exception.TransactionTypeNotFoundException;
 import com.nttdata.project.creditBank.model.CreditCard;
-import com.nttdata.project.creditBank.service.CreditCardService;
-import com.nttdata.project.creditBank.strategy.CreditCardTransactionType;
-import com.nttdata.project.creditBank.model.Customer;
 import com.nttdata.project.creditBank.repository.CreditCardRepository;
 import com.nttdata.project.creditBank.repository.CustomerRepository;
+import com.nttdata.project.creditBank.service.CreditCardService;
+import com.nttdata.project.creditBank.strategy.CreditCardTransactionType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,9 +34,6 @@ public class CreditCardServiceImpl implements CreditCardService {
 
     @Override
     public Mono<CreditCard> addCreditCard(CreditCard creditCard) {
-        Customer customer = customerRepository.findById(creditCard.getCustomer().getId()).block();
-        customer.setCreditCard(creditCard);
-        customerRepository.save(customer);
         return creditCardRepository.save(creditCard);
     }
 
@@ -48,15 +44,6 @@ public class CreditCardServiceImpl implements CreditCardService {
 
     @Override
     public void updateAccountBalance(String creditCardId, float amount, String creditCardtransactionType) {
-
-        validateCreditCardTransactionType(creditCardtransactionType);
-
-        CreditCard creditCard = creditCardRepository.findById(creditCardId).block();
-
-        if (CreditCardTransactionType.valueOf(creditCardtransactionType).validateBalance(amount, creditCard))
-            creditCard.setBalance(CreditCardTransactionType.valueOf(creditCardtransactionType).calculateBalance(amount, creditCard.getBalance()));
-
-        creditCardRepository.save(creditCard);
     }
 
     @Override

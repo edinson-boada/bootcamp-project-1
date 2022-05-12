@@ -4,6 +4,7 @@ import com.nttdata.project.creditBank.model.Customer;
 import com.nttdata.project.creditBank.model.api.CustomerProductsResponse;
 import com.nttdata.project.creditBank.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.loadbalancer.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,9 +39,10 @@ public class CustomerController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteCustomer(@PathVariable String id) {
-        customerService.deleteCustomer(id);
-        return ResponseEntity.noContent().build();
+    public Mono<ResponseEntity<Void>> deleteCustomer(@PathVariable String id) {
+        return customerService.deleteCustomer(id)
+                .map(r->ResponseEntity.ok().<Void> build())
+                .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
     @PutMapping("/{id}")

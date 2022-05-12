@@ -1,14 +1,15 @@
 package com.nttdata.project.creditBank.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.DocumentReference;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 @Getter
 @Setter
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @Document(collection = "credit_cards")
 public class CreditCard {
     @Id
@@ -19,6 +20,5 @@ public class CreditCard {
     private String expirationDate;
     private String CCI;
     private float balance;
-    @DocumentReference
     private Customer customer;
 }

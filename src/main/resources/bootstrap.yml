@@ -1,8 +1,20 @@
+#spring:
+#  application:
+#    name: credit-bank
+#  cloud:
+#    config:
+#      uri: http://localhost:8888
+#      username: edinson-boada
+#      password: Tzumenicoz$.1
+
 spring:
   application:
     name: credit-bank
-  cloud:
-    config:
-      uri: http://localhost:8888
-      username: edinson-boada
-      password: Tzumenicoz$.1
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/db_credit_bank
+server:
+  port: 8081
+#eureka:
+#  instance:
+#    preferIpAddress: true
