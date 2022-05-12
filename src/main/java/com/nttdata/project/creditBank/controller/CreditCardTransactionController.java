@@ -22,9 +22,9 @@ public class CreditCardTransactionController {
 
     @PostMapping
     public ResponseEntity<Mono<CreditCardTransaction>> addCreditCardTransaction(@RequestBody CreditCardTransaction creditCardTransaction) {
-//        creditCardService.updateAccountBalance(creditCardTransaction.getCreditCard().getId(),
-//                creditCardTransaction.getAmount(),
-//                creditCardTransaction.getType());
+        creditCardService.updateAccountBalance(creditCardTransaction.getCreditCard().getId(),
+                creditCardTransaction.getAmount(),
+                creditCardTransaction.getType());
         return ResponseEntity.status(HttpStatus.CREATED).body(creditCardTransactionService.addCreditCardTransaction(creditCardTransaction));
     }
 

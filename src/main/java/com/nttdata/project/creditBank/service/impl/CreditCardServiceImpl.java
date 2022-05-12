@@ -43,7 +43,12 @@ public class CreditCardServiceImpl implements CreditCardService {
     }
 
     @Override
-    public void updateAccountBalance(String creditCardId, float amount, String creditCardtransactionType) {
+    public void updateAccountBalance(String creditCardId, float amount, String creditCardTransactionType) {
+        validateCreditCardTransactionType(creditCardTransactionType);
+        CreditCard creditCard = creditCardRepository.findById(creditCardId).block();
+        if (CreditCardTransactionType.valueOf(creditCardTransactionType).validateBalance(amount, creditCard))
+            creditCard.setBalance(CreditCardTransactionType.valueOf(creditCardTransactionType).calculateBalance(amount, creditCard.getBalance()));
+        creditCardRepository.save(creditCard);
     }
 
     @Override

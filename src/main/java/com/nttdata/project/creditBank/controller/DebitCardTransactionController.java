@@ -21,7 +21,7 @@ public class DebitCardTransactionController {
 
     @PostMapping
     public ResponseEntity<Mono<DebitCardTransaction>> addTransaction(@RequestBody DebitCardTransaction debitCardTransaction) {
-//        accountService.updateAccountBalance(debitCardTransaction.getAccount().getId(), debitCardTransaction.getAmount(), debitCardTransaction.getType());
+        accountService.updateAccountBalance(debitCardTransaction.getAccount().getId(), debitCardTransaction.getAmount(), debitCardTransaction.getType());
         return ResponseEntity.status(HttpStatus.CREATED).body(DebitCardTransactionService.addTransaction(debitCardTransaction));
     }
 
