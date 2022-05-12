@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.nttdata.project.creditBank.model.BootCoin;
 import com.nttdata.project.creditBank.model.BootCoinTransaction;
 import com.nttdata.project.creditBank.model.Person;
+import com.nttdata.project.creditBank.model.api.BootCoinTransactionRequest;
 import com.nttdata.project.creditBank.service.PersonService;
 import com.nttdata.project.creditBank.service.kafkaImpl.BootCoinProducer;
 import com.nttdata.project.creditBank.util.KafkaUtils;
@@ -26,7 +27,6 @@ public class PersonController {
 
     @PostMapping
     public ResponseEntity<Mono<Person>> addPerson(@RequestBody Person person) {
-        producer.publish(new Gson().toJson(person), KafkaUtils.BOOT_COIN_KAFKA_TOPIC);
         return ResponseEntity.status(HttpStatus.CREATED).body(PersonService.addPerson(person));
     }
 
@@ -50,5 +50,11 @@ public class PersonController {
     @PutMapping("/{id}")
     public ResponseEntity<Mono<Person>> update(@PathVariable String id, @RequestBody Person person) {
         return ResponseEntity.status(HttpStatus.CREATED).body(PersonService.updatePerson(person, id));
+    }
+
+    @PostMapping("/purchase-boot-coin")
+    public ResponseEntity<?> purchaseBootCoin(@RequestBody BootCoinTransactionRequest bootCoinTransactionRequest) {
+        producer.publish(bootCoinTransactionRequest, KafkaUtils.BOOT_COIN_KAFKA_TOPIC);
+        return ResponseEntity.noContent().build();
     }
 }
