@@ -30,11 +30,6 @@ public class DebitCardServiceImpl implements DebitCardService {
 
     @Override
     public Mono<DebitCard> addDebitCard(DebitCard debitCard) {
-        Flux.fromIterable(debitCard.getAccounts()).doOnNext(
-                account -> accountRepository.findById(account.getId()).doOnNext(a -> {
-                            a.setDebitCard(debitCard);
-                            accountRepository.save(a).subscribe();
-                        }).subscribe()).subscribe();
         return debitCardRepository.save(debitCard);
     }
 

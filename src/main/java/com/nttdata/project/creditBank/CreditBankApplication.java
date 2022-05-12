@@ -11,5 +11,4 @@ public class CreditBankApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(CreditBankApplication.class, args);
 	}
-
 }
