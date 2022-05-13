@@ -12,4 +12,5 @@ public interface CustomerService {
     Mono<Customer> addCustomer(Customer customer);
     Mono<Customer> updateCustomer(Customer customer, String id);
     Mono<Customer> deleteCustomer(String id);
+    Flux<Customer> getCustomerBootCoinSeller(boolean isBootCoinSeller);
 }

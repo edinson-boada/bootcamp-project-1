@@ -57,6 +57,11 @@ public class CustomerServiceImpl implements CustomerService {
                         .then(Mono.just(deletedCustomer)));
     }
 
+    @Override
+    public Flux<Customer> getCustomerBootCoinSeller(boolean isBootCoinSeller) {
+        return customerRepository.findByBootCoinSeller(isBootCoinSeller);
+    }
+
     public void validateCustomerType(Customer customer) {
         try {
             CustomerType.valueOf(customer.getCustomerType());

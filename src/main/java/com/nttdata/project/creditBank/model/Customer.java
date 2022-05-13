@@ -21,4 +21,5 @@ public class Customer {
     @Field(name = "doc_number")
     private String docNumber;
     private String address;
+    private boolean bootCoinSeller;
 }
