@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface CustomerRepository extends ReactiveMongoRepository<Customer, String> {
     Flux<Customer> findByIdIn(List<String> customerIds);
+    Flux<Customer> findByBootCoinSeller(boolean customerIds);
 }
