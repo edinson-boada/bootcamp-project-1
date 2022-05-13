@@ -23,6 +23,5 @@ public class Account {
     @Field(name = "customer_ids")
     private List<Customer> customers;
     @Field(name = "debit_card")
-    @DocumentReference
     private DebitCard debitCard;
 }
