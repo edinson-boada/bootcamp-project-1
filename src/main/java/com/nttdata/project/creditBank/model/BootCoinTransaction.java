@@ -10,14 +10,13 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Builder
-@ToString
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Document(collection = "boot_coin_transactions")
 public class BootCoinTransaction {
     @Id
     private String id;
     private String paymentMethod;
-    private double amount;
+    private int bootCoinQuantity;
     private String customerId;
     private String personId;
     private LocalDateTime localDateTime;
